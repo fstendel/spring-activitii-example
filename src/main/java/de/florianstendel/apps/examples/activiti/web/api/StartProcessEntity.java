@@ -1,4 +1,4 @@
-package de.florianstendel.apps.examples.activiti.api;
+package de.florianstendel.apps.examples.activiti.web.api;
 
 public class StartProcessEntity {
 

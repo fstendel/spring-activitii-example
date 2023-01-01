@@ -1,15 +1,10 @@
 package de.florianstendel.apps.examples.activiti.core;
 
-import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.h2.util.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -28,7 +23,12 @@ public class ExampleProcessService {
 
         this.runtimeService = runtimeService;
 
-        repositoryService.createDeployment().addClasspathResource("processes/simpleNewsReport.bpmn20.xml").deploy();
+        repositoryService.createDeployment()
+                .addClasspathResource("processes/simpleNewsReport.bpmn20.xml")
+                .deploy();
+        repositoryService.createDeployment()
+                .addClasspathResource("processes/extendedNewsReport.bpmn20.xml")
+                .deploy();
 
     }
 
@@ -39,7 +39,12 @@ public class ExampleProcessService {
         passedVariables.put("NotifiedUserEmail",emailAddress);
 
         _logger.info("Starting process with input variables: "+url);
-        runtimeService.startProcessInstanceByKey("NewsReportProcess",passedVariables);
+
+        runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey("NewsReportProcess")
+                .variables(passedVariables)
+                .businessKey("News-Report-"+ System.currentTimeMillis())
+                .start();
     }
 
 }

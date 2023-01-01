@@ -1,4 +1,4 @@
-package de.florianstendel.apps.examples.activiti.api;
+package de.florianstendel.apps.examples.activiti.web.api;
 
 import de.florianstendel.apps.examples.activiti.core.ExampleProcessService;
 import org.slf4j.Logger;
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ProcessApiController {
 
+    private Logger _logger = LoggerFactory.getLogger(this.getClass());
+
     private ExampleProcessService exampleProcessService;
 
     @Autowired
@@ -17,7 +19,6 @@ public class ProcessApiController {
     }
 
 
-    private Logger _logger = LoggerFactory.getLogger(this.getClass());
     @PostMapping(value = "/startProcess")
     public void startProcess(@RequestBody StartProcessEntity startProcessEntity) {
         _logger.info("Startprocess called with "+startProcessEntity.getUrl() + " & " +startProcessEntity.getNotificalEmailAdress());

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+    <head>
+        <title>Process Monitor</title>
+        <link rel="stylesheet" href="css/main.css">
+        <script src="https://unpkg.com/bpmn-js/dist/bpmn-viewer.development.js"></script>
+        <--script>
+          // the diagram you are going to display
+          const bpmnXML = '';
+
+          // BpmnJS is the BPMN viewer instance
+          const viewer = new BpmnJS({ container: '#canvas' });
+
+          // import a BPMN 2.0 diagram
+          try {
+            // we did well!
+            await viewer.importXML(bpmnXML);
+            viewer.get('canvas').zoom('fit-viewport');
+
+          } catch (err) {
+            // import failed :-(
+          }
+        </script-->
+    </head>
+    <body>
+
+    <div class="horizontalSplit left">
+        <ul>
+            <li th:each="definition :${ProcessDefinitions}">
+                <a th:text="${definition.processKey}"
+                   th:href="@{${baseURI}(processKey=${definition.processKey})}"
+                   target="_self" /> </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="horizontalSplit right">
+        <div>
+            <table th:object="${ExecutionHistory}" id="userTable">
+                <tr>
+                    <th>Prozessinstanz</th>
+                    <th>Variablen</th>
+                    <th>Startzeit</th>
+                    <th>Endzeit</th>
+                    <th>Dauer</th>
+                </tr>
+                <tr th:each="executionRecord :${ExecutionHistory}">
+                    <td th:text="${executionRecord.getProcessName()}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="entry: ${executionRecord.getProcessVariables()}">
+                            <span th:text="${entry.key}"></span> = <span th:text="${entry.value}"></span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td th:text="${executionRecord.getProcessStart()}"></td>
+                    <td th:text="${executionRecord.getProcessEnd()}"></td>
+                    <td th:text="${executionRecord.getDuration() + 'ms'}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    </body>
+</html>
