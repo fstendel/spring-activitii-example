@@ -1,5 +1,7 @@
 # spring-activitii-example
 
+__Note:__ As activiti didn't migrate to Spring Boot 3 yet, I switched to flowable. An example can be found here: https://github.com/fstendel/spring-flowable-example
+
 As I run a process engine to consolidate my daily news sources into a more easy to 'consume' form, some of my friends asked me if I could share a very basic setup so they can start similar things.
 This spring process flow applications runs a single bpmn2.0 process with the Activiti framework. 
 Each task within in the process delegates the implementation of the actual behaviour to a plain java class.
